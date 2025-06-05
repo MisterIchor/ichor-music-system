@@ -5,7 +5,7 @@ signal started
 
 var folder_path: String = "":
 	set = set_folder_path
-var pause_between_songs: float = 0.05
+var pause_on_song_finished: float = 0.05
 var fade_in_time: float = 0.025
 var fade_out_time: float = 0.025
 var is_looping: bool = false
@@ -21,7 +21,6 @@ var _current_song: String = "":
 
 
 func _init() -> void:
-	stream = AudioStreamSynchronized.new()
 	finished.connect(_on_finished)
 
 
@@ -112,7 +111,8 @@ func get_current_song() -> String:
 
 
 func _on_finished() -> void:
-	await get_tree().create_timer(pause_between_songs)
+	if not is_looping:
+		await get_tree().create_timer(pause_on_song_finished).timeout
 	
 	if shuffle_after_song_finished:
 		shuffle_song_list()
