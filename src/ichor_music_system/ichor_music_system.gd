@@ -5,7 +5,9 @@ signal song_finished
 signal song_started
 
 var current_song: String = "":
-	set = set_current_song
+	set(value):
+		current_song = value
+		_load_current_song()
 var folder_path: String = "":
 	set = set_folder_path
 var pause_between_songs: float = 0.05
@@ -20,9 +22,23 @@ func _init() -> void:
 	stream = AudioStreamSynchronized.new()
 
 
+func _load_current_song() -> void:
+	var song: AudioStream = null
+	var path: String = folder_path.path_join(current_song)
+	
+	match current_song.get_extension():
+		"wav":
+			song = AudioStreamWAV.load_from_file(path)
+		"mp3":
+			song = AudioStreamMP3.load_from_file(path)
+		"ogg":
+			song = AudioStreamOggVorbis.load_from_file(path)
+		_:
+			print("IchorMusicSystem: Illegal file type provided: %s" % current_song.get_extension())
+			return
+	
+	stream = song
 
-func play_song() -> void:
-	return
 
 
 func play_next_song_in_list() -> void:
@@ -32,11 +48,6 @@ func play_next_song_in_list() -> void:
 
 func shuffle_song_list() -> void:
 	_song_list.shuffle()
-
-
-
-func set_current_song(new_song: String) -> void:
-	return
 
 
 func set_folder_path(new_path: String) -> void:
@@ -56,3 +67,5 @@ func set_folder_path(new_path: String) -> void:
 			_song_list.append(current_file)
 		
 		current_file = folder_dir.get_next()
+	
+	current_song = _song_list.front()
