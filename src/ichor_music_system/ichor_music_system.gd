@@ -13,6 +13,9 @@ var folder_path: String = "":
 var pause_between_songs: float = 0.05
 var fade_in: float = 0.025
 var fade_out: float = 0.025
+var is_looping: bool = false
+var shuffle_after_song_finished: bool = false
+var shuffle_after_setting_folder_path: bool = false
 
 var _song_list: Array = []
 
@@ -20,6 +23,7 @@ var _song_list: Array = []
 
 func _init() -> void:
 	stream = AudioStreamSynchronized.new()
+	finished.connect(_on_finished)
 
 
 func _load_current_song() -> void:
@@ -38,7 +42,6 @@ func _load_current_song() -> void:
 			return
 	
 	stream = song
-
 
 
 func play_next_song_in_list() -> void:
@@ -68,4 +71,17 @@ func set_folder_path(new_path: String) -> void:
 		
 		current_file = folder_dir.get_next()
 	
+	if shuffle_after_setting_folder_path:
+		shuffle_song_list()
+	
 	current_song = _song_list.front()
+
+
+
+func _on_finished() -> void:
+	await get_tree().create_timer(pause_between_songs)
+	
+	if shuffle_after_song_finished:
+		shuffle_song_list()
+	
+	play_next_song_in_list() if not is_looping else play()
