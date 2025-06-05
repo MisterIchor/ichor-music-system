@@ -25,14 +25,6 @@ func play_song() -> void:
 	return
 
 
-func pause(idx: int = -1) -> void:
-	return
-
-
-func play_song_from_list(song_list: String) -> void:
-	return
-
-
 func play_next_song_in_list() -> void:
 	_song_list.push_back(_song_list.pop_front())
 	current_song = _song_list.front()
