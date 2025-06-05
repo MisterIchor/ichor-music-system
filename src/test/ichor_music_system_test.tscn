@@ -110,6 +110,16 @@ text = "Shuffle after setting folder:"
 [node name="ShuffleSettingFolderCheckBox" type="CheckBox" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer/ShuffleSettingFolderContainer"]
 layout_mode = 2
 
+[node name="LoopSongContainer2" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer/LoopSongContainer2"]
+layout_mode = 2
+text = "Loop song when finished:"
+
+[node name="LoopSongCheckBox" type="CheckBox" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer/LoopSongContainer2"]
+layout_mode = 2
+
 [node name="PlayCurrentSongButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer"]
 layout_mode = 2
 text = "Play Current Song"

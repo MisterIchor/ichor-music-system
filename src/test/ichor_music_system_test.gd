@@ -18,13 +18,14 @@ extends Control
 @onready var shuffle_song_finished_check_box: CheckBox = $PanelContainer/VBoxContainer/HBoxContainer/OptionContainer/ShuffleSongFinshedContainer/ShuffleSongFinishedCheckBox
 @onready var shuffle_setting_folder_check_box: CheckBox = $PanelContainer/VBoxContainer/HBoxContainer/OptionContainer/ShuffleSettingFolderContainer/ShuffleSettingFolderCheckBox
 @onready var current_song_label: Label = $PanelContainer/VBoxContainer/CurrentSongLabel
+@onready var loop_song_check_box: CheckBox = $PanelContainer/VBoxContainer/HBoxContainer/OptionContainer/LoopSongContainer2/LoopSongCheckBox
 
 var _last_folder_selected: int = -1
 
 
 
 func _ready() -> void:
-	play_current_song_button.pressed.connect(IchorMusicSystem.play_current_song)
+	#play_current_song_button.pressed.connect(IchorMusicSystem.play_song)
 	play_next_song_button.pressed.connect(_on_PlayNextSongButton_pressed)
 	start_player_button.pressed.connect(IchorMusicSystem.play)
 	pause_player_button.pressed.connect(_on_PausePlayerButton_pressed)
@@ -42,10 +43,11 @@ func _ready() -> void:
 	shuffle_song_finished_check_box.toggled.connect(_on_ShuffleSongFinishedCheckBox_toggled)
 	IchorMusicSystem.finished.connect(_on_IchorMusicSystem_finished)
 	IchorMusicSystem.started.connect(_on_IchorMusicSystem_started)
+	loop_song_check_box.toggled.connect(_on_LoopSongButton_toggled)
 	
 	fade_in_spin_box.value = IchorMusicSystem.fade_in_time
 	fade_out_spin_box.value = IchorMusicSystem.fade_out_time
-	pause_spin_box.value = IchorMusicSystem.pause_between_songs
+	pause_spin_box.value = IchorMusicSystem.pause_on_song_finished
 	shuffle_setting_folder_check_box.button_pressed = IchorMusicSystem.shuffle_after_setting_folder_path
 	shuffle_song_finished_check_box.button_pressed = IchorMusicSystem.shuffle_after_song_finished
 
@@ -69,7 +71,7 @@ func _on_FadeOutSpinBox_value_changed(new_value: float) -> void:
 
 
 func _on_PauseSpinBox_value_changed(new_value: float) -> void:
-	IchorMusicSystem.pause_between_songs = new_value
+	IchorMusicSystem.pause_on_song_finished = new_value
 
 
 func _on_AddFolderButton_pressed() -> void:
@@ -127,9 +129,13 @@ func _on_IchorMusicSystem_finished() -> void:
 
 
 func _on_IchorMusicSystem_started() -> void:
-	current_song_label.text = str("Current Song: ", IchorMusicSystem.current_song)
+	current_song_label.text = str("Current Song: ", IchorMusicSystem.get_current_song())
 
 
 func _on_PlayNextSongButton_pressed() -> void:
 	IchorMusicSystem.play_next_song_in_list()
 	_refresh_song_list()
+
+
+func _on_LoopSongButton_toggled(is_toggled: bool) -> void:
+	IchorMusicSystem.is_looping = is_toggled
