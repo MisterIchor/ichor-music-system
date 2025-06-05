@@ -10,3 +10,173 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_1kq47")
+
+[node name="PanelContainer" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = 10.5
+offset_right = -14.0
+offset_bottom = -10.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CurrentSongLabel" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Current Song: "
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="OptionContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="FadeInContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer/FadeInContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Fade in:"
+horizontal_alignment = 1
+
+[node name="FadeInSpinBox" type="SpinBox" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer/FadeInContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+step = 0.001
+custom_arrow_step = 0.005
+
+[node name="FadeOutContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer/FadeOutContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Fade out:"
+horizontal_alignment = 1
+
+[node name="FadeOutSpinBox" type="SpinBox" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer/FadeOutContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+step = 0.001
+custom_arrow_step = 0.005
+
+[node name="PauseContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer"]
+layout_mode = 2
+size_flags_vertical = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer/PauseContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Pause:"
+horizontal_alignment = 1
+
+[node name="PauseSpinBox" type="SpinBox" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer/PauseContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+step = 0.001
+custom_arrow_step = 0.005
+
+[node name="ShuffleSongFinshedContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer/ShuffleSongFinshedContainer"]
+layout_mode = 2
+text = "Shuffle after song finished: "
+
+[node name="ShuffleSongFinishedCheckBox" type="CheckBox" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer/ShuffleSongFinshedContainer"]
+layout_mode = 2
+
+[node name="ShuffleSettingFolderContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer/ShuffleSettingFolderContainer"]
+layout_mode = 2
+text = "Shuffle after setting folder:"
+
+[node name="ShuffleSettingFolderCheckBox" type="CheckBox" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer/ShuffleSettingFolderContainer"]
+layout_mode = 2
+
+[node name="PlayCurrentSongButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer"]
+layout_mode = 2
+text = "Play Current Song"
+
+[node name="PlayNextSongButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer"]
+layout_mode = 2
+text = "Play Next Song"
+
+[node name="StartPlayerButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer"]
+layout_mode = 2
+text = "Start Player"
+
+[node name="PausePlayerButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer"]
+layout_mode = 2
+text = "Pause Player
+"
+
+[node name="StopPlayerButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer"]
+layout_mode = 2
+text = "Stop Player
+"
+
+[node name="AddFolderButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer"]
+layout_mode = 2
+text = "Add Folder"
+
+[node name="RemoveFolderButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer"]
+layout_mode = 2
+text = "Remove Folder"
+
+[node name="LoadSelectedFolderButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer"]
+layout_mode = 2
+text = "Load Selected Folder
+"
+
+[node name="ShuffleSongListButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer"]
+layout_mode = 2
+text = "Shuffle Song List"
+
+[node name="QuitButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/OptionContainer"]
+layout_mode = 2
+text = "Quit"
+
+[node name="FolderListContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FolderListLabel" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/FolderListContainer"]
+layout_mode = 2
+text = "Folder List"
+horizontal_alignment = 1
+
+[node name="FolderList" type="ItemList" parent="PanelContainer/VBoxContainer/HBoxContainer/FolderListContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SongListContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SongListLabel" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/SongListContainer"]
+layout_mode = 2
+text = "Song List"
+horizontal_alignment = 1
+
+[node name="SongList" type="ItemList" parent="PanelContainer/VBoxContainer/HBoxContainer/SongListContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
