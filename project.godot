@@ -13,6 +13,10 @@ config_version=5
 config/name="Ichor's Music System"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 
+[autoload]
+
+IchorMusicSystem="*res://src/ichor_music_system/ichor_music_system.gd"
+
 [editor]
 
 version_control/plugin_name="GitPlugin"
