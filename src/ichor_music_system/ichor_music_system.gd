@@ -1,23 +1,22 @@
 @tool
 extends AudioStreamPlayer
 
-signal song_finished
-signal song_started
+signal started
 
-var current_song: String = "":
-	set(value):
-		current_song = value
-		_load_current_song()
 var folder_path: String = "":
 	set = set_folder_path
 var pause_between_songs: float = 0.05
-var fade_in: float = 0.025
-var fade_out: float = 0.025
+var fade_in_time: float = 0.025
+var fade_out_time: float = 0.025
 var is_looping: bool = false
 var shuffle_after_song_finished: bool = false
 var shuffle_after_setting_folder_path: bool = false
 
 var _song_list: Array = []
+var _current_song: String = "":
+	set(value):
+		_current_song = value
+		_load_current_song()
 
 
 
@@ -28,9 +27,9 @@ func _init() -> void:
 
 func _load_current_song() -> void:
 	var song: AudioStream = null
-	var path: String = folder_path.path_join(current_song)
+	var path: String = folder_path.path_join(_current_song)
 	
-	match current_song.get_extension():
+	match _current_song.get_extension():
 		"wav":
 			song = AudioStreamWAV.load_from_file(path)
 		"mp3":
@@ -38,18 +37,42 @@ func _load_current_song() -> void:
 		"ogg":
 			song = AudioStreamOggVorbis.load_from_file(path)
 		_:
-			print("IchorMusicSystem: Illegal file type provided: %s" % current_song.get_extension())
+			print("IchorMusicSystem: Illegal file type provided: %s" % _current_song.get_extension())
 			return
 	
 	stream = song
 
 
+func play_song(song_name: String) -> void:
+	var tween: Tween = get_tree().create_tween()
+	
+	if playing:
+		tween.tween_property(self, "volume_linear", 0.0, fade_out_time)
+		await tween.finished
+	
+	_current_song = song_name
+	play()
+	tween = get_tree().create_tween()
+	tween.tween_property(self, "volume_linear", 1.0, fade_in_time)
+	started.emit()
+
+
 func play_next_song_in_list() -> void:
-	_song_list.push_back(_song_list.pop_front())
-	current_song = _song_list.front()
+	if _song_list.is_empty():
+		print("IchorMusicSystem: song list is empty, cannot play next song.")
+		return
+	
+	if not _current_song.is_empty():
+		_song_list.push_back(_current_song)
+	
+	play_song(_song_list.pop_front())
 
 
 func shuffle_song_list() -> void:
+	if _song_list.is_empty():
+		print("IchorMusicSystem: song list is empty, cannot shuffle.")
+		return
+	
 	_song_list.shuffle()
 
 
@@ -74,7 +97,17 @@ func set_folder_path(new_path: String) -> void:
 	if shuffle_after_setting_folder_path:
 		shuffle_song_list()
 	
-	current_song = _song_list.front()
+	if playing:
+		_current_song = _song_list.pop_front()
+		play_song(_current_song)
+
+
+func get_song_list() -> PackedStringArray:
+	return PackedStringArray(_song_list.duplicate())
+
+
+func get_current_song() -> String:
+	return _current_song
 
 
 
