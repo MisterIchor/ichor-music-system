@@ -1,73 +1,66 @@
-class_name IchorMusicSystem
-extends Object
+@tool
+extends AudioStreamPlayer
 
 signal song_finished
 signal song_started
-signal music_stopped
-signal music_resumed
 
-static var current_song: String = "":
+var current_song: String = "":
 	set = set_current_song
-static var folder_path: String = "":
+var folder_path: String = "":
 	set = set_folder_path
-static var audio_bus: String = "":
-	set = set_audio_bus
-static var pause_between_songs: float = 0.05
-static var fade_in: float = 0.025
-static var fade_out: float = 0.025
-static var is_stopped: bool = false:
-	set = set_is_stopped
-static var is_paused: bool = false:
-	set = set_is_paused
+var pause_between_songs: float = 0.05
+var fade_in: float = 0.025
+var fade_out: float = 0.025
 
-static var _song_list: Array = []
-static var _playback: AudioStreamSynchronized = AudioStreamSynchronized.new()
-static var _stream: AudioStreamPlayback = AudioStreamPlayback.new()
-static var _song_position: float = 0.00
+var _song_list: Array = []
 
 
 
-static func play() -> void:
+func _init() -> void:
+	stream = AudioStreamSynchronized.new()
+
+
+
+func play_song() -> void:
 	return
 
 
-static func pause() -> void:
+func pause(idx: int = -1) -> void:
 	return
 
 
-static func stop() -> void:
+func play_song_from_list(song_list: String) -> void:
 	return
 
 
-static func play_from_list(song_list: String) -> void:
-	return
-
-
-static func play_next() -> void:
+func play_next_song_in_list() -> void:
 	_song_list.push_back(_song_list.pop_front())
 	current_song = _song_list.front()
 
 
-static func shuffle_song_list() -> void:
+func shuffle_song_list() -> void:
 	_song_list.shuffle()
 
 
 
-static func set_current_song(new_song: String) -> void:
+func set_current_song(new_song: String) -> void:
 	return
 
 
-static func set_folder_path(new_path: String) -> void:
-	return
-
-
-static func set_audio_bus(bus_name: String) -> void:
-	return
-
-
-static func set_is_stopped(value: bool) -> void:
-	return
-
-
-static func set_is_paused(value: bool) -> void:
-	return
+func set_folder_path(new_path: String) -> void:
+	folder_path = new_path
+	var folder_dir: DirAccess = DirAccess.open(folder_path)
+	
+	if not folder_dir:
+		print("IchorMusicSystem: could not find folder at path %s." % folder_path)
+		return
+	
+	folder_dir.list_dir_begin()
+	_song_list.clear()
+	var current_file: String = folder_dir.get_next()
+	
+	while not current_file.is_empty():
+		if current_file.get_extension() in ["wav", "ogg", "mp3"]:
+			_song_list.append(current_file)
+		
+		current_file = folder_dir.get_next()
